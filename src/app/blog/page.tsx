@@ -4,13 +4,13 @@ import { blogPosts } from "@/lib/blog";
 import { BASE_URL } from "@/lib/config";
 
 export const metadata: Metadata = {
-  title: "Blog — Journaling Tips, Research & Stories",
+  title: "Blog — Journaling, AI & Mental Clarity",
   description:
-    "Read about the science of journaling, personal stories, morning routines, mental health, and practical tips to build a journaling habit that sticks.",
+    "Read about AI-powered journaling, the science of expressive writing, personal stories, morning routines, and practical tips to build a journaling habit that lasts.",
   openGraph: {
-    title: "Blog — Journaling Tips, Research & Stories",
+    title: "Blog — Journaling, AI & Mental Clarity",
     description:
-      "Read about the science of journaling, personal stories, morning routines, mental health, and practical tips to build a journaling habit that sticks.",
+      "Read about AI-powered journaling, the science of expressive writing, personal stories, morning routines, and practical tips to build a journaling habit that lasts.",
     url: `${BASE_URL}/blog`,
   },
 };
@@ -52,8 +52,8 @@ export default function BlogPage() {
           The Journal Blog
         </h1>
         <p className="text-stone-500 text-lg leading-relaxed">
-          Stories, science, and practical wisdom about journaling, mental
-          clarity, and building a writing practice that lasts.
+          Stories, science, and practical wisdom about journaling, AI-powered
+          self-reflection, and building a writing practice that lasts.
         </p>
       </section>
 
@@ -91,6 +91,36 @@ export default function BlogPage() {
               </div>
             </Link>
           ))}
+        </div>
+      </section>
+
+      <section className="border-t border-stone-100 py-14 text-center px-6">
+        <div className="max-w-sm mx-auto">
+          <p className="text-lg font-serif text-stone-700 mb-1">
+            Enjoying Journal?
+          </p>
+          <p className="text-sm text-stone-400 mb-6 leading-relaxed">
+            It&apos;s free and built with care. If it&apos;s brought you some clarity, a
+            coffee helps keep it running.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <a
+              href="https://buymeacoffee.com/yourname"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 bg-[#FFDD00] hover:bg-yellow-300 text-stone-900 text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors"
+            >
+              ☕ Buy me a coffee
+            </a>
+            <a
+              href="https://ko-fi.com/yourname"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 bg-white hover:bg-stone-50 text-stone-700 text-sm font-medium px-5 py-2.5 rounded-xl border border-stone-200 transition-colors"
+            >
+              Ko-fi
+            </a>
+          </div>
         </div>
       </section>
 

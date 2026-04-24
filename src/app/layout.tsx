@@ -4,35 +4,39 @@ import { BASE_URL } from "@/lib/config";
 
 export const metadata: Metadata = {
   title: {
-    default: "Journal — Your Private Daily Journal",
+    default: "Journal — AI-Powered Private Journal",
     template: "%s | Journal",
   },
   description:
-    "A simple, private online journal to capture your thoughts, track your mood, and reflect on your life. Free to use. Your entries are yours alone.",
+    "A private online journal powered by AI. Get personalised writing prompts, post-entry reflections, weekly summaries, and ask questions about your own past — all in a calm, distraction-free space.",
   keywords: [
-    "online journal",
+    "AI journal app",
+    "AI-powered journaling",
     "private journal app",
-    "daily journal",
-    "digital diary",
-    "free journal app",
+    "online journal with AI",
+    "smart daily journal",
+    "AI reflection journal",
+    "digital diary with AI",
+    "free AI journal",
     "journaling for mental health",
     "personal journal online",
-    "simple journal app",
+    "ask your journal",
+    "weekly summary journal",
   ],
   metadataBase: new URL(BASE_URL),
   openGraph: {
     type: "website",
     siteName: "Journal",
-    title: "Journal — Your Private Daily Journal",
+    title: "Journal — AI-Powered Private Journal",
     description:
-      "A simple, private online journal to capture your thoughts, track your mood, and reflect on your life.",
+      "A private journal with AI-powered prompts, reflections, weekly summaries, and a Q&A over your own past entries.",
     url: BASE_URL,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Journal — Your Private Daily Journal",
+    title: "Journal — AI-Powered Private Journal",
     description:
-      "A simple, private online journal to capture your thoughts, track your mood, and reflect on your life.",
+      "A private journal with AI-powered prompts, reflections, weekly summaries, and a Q&A over your own past entries.",
   },
   robots: {
     index: true,

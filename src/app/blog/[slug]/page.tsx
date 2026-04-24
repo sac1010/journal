@@ -215,6 +215,36 @@ export default async function BlogPostPage({ params }: Props) {
         </section>
       )}
 
+      <section className="border-t border-stone-100 py-14 text-center px-6">
+        <div className="max-w-sm mx-auto">
+          <p className="text-lg font-serif text-stone-700 mb-1">
+            Enjoying Journal?
+          </p>
+          <p className="text-sm text-stone-400 mb-6 leading-relaxed">
+            It&apos;s free and built with care. If it&apos;s brought you some clarity, a
+            coffee helps keep it running.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <a
+              href="https://buymeacoffee.com/yourname"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 bg-[#FFDD00] hover:bg-yellow-300 text-stone-900 text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors"
+            >
+              ☕ Buy me a coffee
+            </a>
+            <a
+              href="https://ko-fi.com/yourname"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 bg-white hover:bg-stone-50 text-stone-700 text-sm font-medium px-5 py-2.5 rounded-xl border border-stone-200 transition-colors"
+            >
+              Ko-fi
+            </a>
+          </div>
+        </div>
+      </section>
+
       <footer className="border-t border-stone-100 py-8">
         <div className="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-stone-400">
           <span>© {new Date().getFullYear()} Journal. All rights reserved.</span>

@@ -251,6 +251,151 @@ The act of constructing a narrative — making meaning out of events — seems t
 
 And finally: the research tells us that writing works, but it doesn't tell us that you have to do it a particular way. Your format, your medium, your frequency — these are yours to figure out. What the science confirms is that when you sit down to write honestly about what's happening in your life, you're doing something genuinely worthwhile.`,
   },
+  {
+    slug: "how-ai-changed-my-journaling",
+    title: "How AI Changed the Way I Journal (And What I Was Skeptical About)",
+    description:
+      "I didn't expect an AI reflection after saving an entry to tell me anything I didn't already know. I was wrong about that.",
+    date: "2026-04-21",
+    author: "Sarah Chen",
+    readTime: "6 min read",
+    category: "AI & Technology",
+    content: `I want to be upfront: I went into AI-assisted journaling as a skeptic. I've kept a journal since I was nineteen. I have a whole shelf of filled notebooks. The idea that a language model would have something meaningful to say about what I write felt, honestly, a little absurd. Journaling is private. It's internal. What could an AI possibly add?
+
+I've been using an AI journal for about four months now, and I have revised my opinion. Not entirely — there are things I still prefer about writing into a void with no response — but meaningfully. The AI features have done things I didn't predict.
+
+**The prompt that stopped me in my tracks**
+
+The first surprise was the daily writing prompt. I expected something generic — the kind of question you'd find on a "journaling prompts" Pinterest board. Instead, on a day when I'd written several entries about a difficult situation with a family member, the prompt was: *"What would it take for you to feel at peace with how this has gone, even if it doesn't resolve the way you want?"*
+
+That is not a generic prompt. That is a question that was shaped by what I'd been writing. I sat with it for a few minutes before I typed anything. That's the sign of a good question.
+
+**The reflection that named something I hadn't**
+
+After I wrote a long entry about feeling stuck in my career, the post-entry reflection said something like: "There's a recurring thread in what you've written — a gap between what you're doing and what you believe you're capable of. That gap seems to be the real source of the frustration, not the specific job."
+
+I read that twice. It wasn't wrong. It was actually a sharper articulation of what I'd been circling around for paragraphs. I hadn't quite gotten there myself.
+
+Now, I know what an AI is doing here. It's identifying patterns in language and generating a response that fits them. It's not intuitive in the human sense. But the output — a sentence that names something I was struggling to name — was genuinely useful, regardless of the process behind it.
+
+**What I still prefer about traditional journaling**
+
+The AI features work best when I treat them as optional. The days when I skip the reflection and just close the editor — those are fine too. The AI doesn't demand anything. It offers, and I can take it or leave it.
+
+What I miss about paper journaling is permanence and tactility. There's something about ink on a page that feels more committed than pixels. I also find that without a response mechanism, I sometimes go deeper — there's no part of my brain waiting to see what the AI says, which means the writing is purer.
+
+But on balance, the AI features have added more than they've taken away. Specifically: the weekly summary is something I couldn't replicate on my own. I don't re-read my entries week by week — I rarely have time. Having a three-paragraph synthesis of my last seven days, written in second person and referencing specifics I actually wrote, has become something I genuinely look forward to on Sunday evenings.
+
+**The question I keep coming back to**
+
+The "ask your journal" feature is the one that surprised me most. I asked it something I wasn't sure it could answer: "What am I most afraid of, based on what I've written?"
+
+It gave me an answer. A specific one, with references. And it was right in a way that made me uncomfortable.
+
+I think that's the sign of a feature working as intended.`,
+  },
+  {
+    slug: "ai-journaling-patterns",
+    title: "5 Ways AI Helps You Spot Patterns You'd Never Notice Yourself",
+    description:
+      "Your journal knows things about you that you don't. Here's how AI makes those patterns visible — and what to do when it does.",
+    date: "2026-04-22",
+    author: "Maya Patel",
+    readTime: "7 min read",
+    category: "AI & Technology",
+    content: `There's a particular kind of blindspot that comes from being inside your own experience. You can't see your patterns because you're living them. This is one of the things that makes therapy valuable — another person can see the repetitions and loops that you've normalised. AI journaling doesn't replace that, but it does something adjacent: it holds a mirror up to what you've actually written, not what you think you've written.
+
+Here are five specific ways that's played out in my own practice, and what I've done with each one.
+
+**1. The emotion you keep coming back to**
+
+I thought I wrote about a lot of different things. When I asked my journal "what emotion comes up most often in my entries?" the answer was "frustration" — specifically, frustration at feeling like my effort isn't seen by people I care about. I'd mentioned it in about a dozen different contexts: work, family, a friendship, even a creative project. I thought those were twelve separate issues. They weren't. They were one issue wearing twelve outfits.
+
+Knowing that changed how I approached the underlying need. I stopped trying to fix each situation individually and started thinking about whether I was communicating my effort clearly in the first place.
+
+**2. The things you mention but never resolve**
+
+There are topics I write about once, maybe twice, and then they disappear from my journal. AI can surface these. When I asked "is there anything I've brought up but never come back to?" it mentioned a conversation I'd had with my brother that I wrote about in January and hadn't referenced since.
+
+I realised I'd been avoiding it — not consciously, but the avoidance showed up as silence in the journal. That's information.
+
+**3. How your language changes around certain topics**
+
+This is subtler, but the AI weekly summary has started to show it to me. There are topics I write about with energy and clarity, and topics where my language gets vague and hedged. The summary often reflects this back: "You wrote about [X] in concrete terms and seemed energised" versus "your writing about [Y] was more tentative."
+
+Vagueness in writing usually indicates vagueness in thinking. When I notice I've been vague, it's a signal to spend more time with that topic.
+
+**4. The shift between how a week starts and how it ends**
+
+The weekly summary has shown me something I didn't know about my own rhythms: I tend to start weeks in a planning mindset (future-focused, goal-oriented language) and end them in a reckoning mindset (processing what happened, what didn't). This isn't surprising once I see it, but I never saw it before.
+
+Now I try to use Monday entries for intention-setting and Friday entries for honest review. The AI revealed a structure that was already there; I just made it deliberate.
+
+**5. The gap between what you say you value and what you actually write about**
+
+This is the uncomfortable one. I've always said that creativity is important to me. But when I looked at how often I wrote about creative work versus work work, the proportion was stark. Most of my journaling was about stress, logistics, and interpersonal friction. Creativity was almost absent.
+
+That gap between stated values and where I actually direct my mental energy is one of the most useful things a journal can reveal. AI makes it much easier to see — it's hard to lie to a dataset that can count.
+
+**A note on what to do with patterns**
+
+Seeing a pattern is not the same as knowing what to do about it. That part is still yours. The AI can surface that you've written about anxiety around a particular topic nine times in three months; it can't tell you why, or what would help. That's where journaling itself comes in — using what the AI reveals as a prompt to go deeper.
+
+The combination of AI-surfaced pattern and human-written exploration has, for me, been more useful than either alone.`,
+  },
+  {
+    slug: "asking-your-journal-questions",
+    title: "I Asked My Journal 20 Hard Questions. Here's What I Learned.",
+    description:
+      "The 'ask your journal' AI feature sounded gimmicky to me. Then I started using it seriously, and it got uncomfortable in the best way.",
+    date: "2026-04-23",
+    author: "James Okafor",
+    readTime: "5 min read",
+    category: "AI & Technology",
+    content: `When I first saw that I could ask questions about my own journal entries and get AI-generated answers from my own words, my immediate reaction was: cute, but what's the point? I know what I've written. I was there.
+
+Then I tried it seriously, over a few weeks, with questions I didn't already know the answers to. My opinion changed.
+
+**The questions that worked best**
+
+Not all questions are equally useful. "What did I write about last Monday?" is technically answerable but not interesting — I could just scroll. The questions that produced something genuinely valuable were the ones I couldn't easily answer myself.
+
+*"When did I last write about feeling genuinely excited about something?"*
+
+The answer wasn't recent. That was worth knowing. And the specific thing it pointed to — an entry about a side project I'd mentioned once and never returned to — reminded me that I'd let something slip that mattered.
+
+*"What situations tend to trigger my worst moods?"*
+
+This gave me a list I hadn't consciously assembled. Three of the five things it named were ones I could do something about. I'd been treating my moods as weather — unpredictable, arriving from nowhere. The answer showed me they had causes.
+
+*"How do I write about the future compared to six months ago?"*
+
+This is the kind of comparative question that would take hours to answer manually. The answer was that six months ago I wrote about the future with more specificity and hope; recently, I'd been writing about it in more qualified, hedged terms. I hadn't noticed the shift. That's not a comfortable thing to notice. It's a useful one.
+
+**The questions that didn't work**
+
+Abstract questions got abstract answers. "Am I happy?" produced something diplomatically vague. The AI was working with concrete language in my entries, and happiness is a big, contested concept that I apparently don't write about directly very often.
+
+Overly specific questions sometimes found nothing useful if I hadn't written about that thing. "What did I think about the meeting with my manager in February?" found relevant entries, but not because it understood context — it just matched keywords.
+
+The sweet spot was concrete, open-ended questions about emotional or behavioural patterns over a meaningful time span.
+
+**The one that got uncomfortable**
+
+I asked: *"What am I avoiding?"*
+
+I expected it to say something about a task or a decision. Instead it identified an ongoing situation I'd mentioned repeatedly in indirect ways — always as context for something else, never as the main subject. I'd been writing around it for months without writing about it.
+
+That's a kind of avoidance I wouldn't have noticed without the outside view. The next entry I wrote was about that thing directly. It was difficult to write. It was probably the most useful entry I've written all year.
+
+**What this feature actually is**
+
+It's not magic, and it's not therapy. It's a way of getting a second read on your own material — a reader who has processed all of it and can answer questions about patterns and themes without the blind spots you have as the person who lived it.
+
+The questions you ask it matter enormously. Go abstract and you'll get generalities. Go specific and honest — especially about the things you're not sure you want to know — and you'll get something worth sitting with.
+
+Your journal knows more about you than you think. Sometimes you just need to ask.`,
+  },
 ];
 
 export function getBlogPost(slug: string): BlogPost | undefined {
