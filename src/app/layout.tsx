@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { BASE_URL } from "@/lib/config";
 
 export const metadata: Metadata = {
   title: {
@@ -18,14 +19,14 @@ export const metadata: Metadata = {
     "personal journal online",
     "simple journal app",
   ],
-  metadataBase: new URL("https://journal-lvovma8v9-sac1010s-projects.vercel.app"),
+  metadataBase: new URL(BASE_URL),
   openGraph: {
     type: "website",
     siteName: "Journal",
     title: "Journal — Your Private Daily Journal",
     description:
       "A simple, private online journal to capture your thoughts, track your mood, and reflect on your life.",
-    url: "https://journal-lvovma8v9-sac1010s-projects.vercel.app",
+    url: BASE_URL,
   },
   twitter: {
     card: "summary_large_image",

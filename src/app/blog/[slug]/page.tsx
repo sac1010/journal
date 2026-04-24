@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getBlogPost, getAllSlugs, blogPosts } from "@/lib/blog";
+import { BASE_URL } from "@/lib/config";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -26,7 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: "article",
       publishedTime: post.date,
       authors: [post.author],
-      url: `https://journal-lvovma8v9-sac1010s-projects.vercel.app/blog/${post.slug}`,
+      url: `${BASE_URL}/blog/${post.slug}`,
     },
     twitter: {
       card: "summary_large_image",
@@ -87,11 +88,11 @@ export default async function BlogPostPage({ params }: Props) {
     publisher: {
       "@type": "Organization",
       name: "Journal",
-      url: "https://journal-lvovma8v9-sac1010s-projects.vercel.app",
+      url: BASE_URL,
     },
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `https://journal-lvovma8v9-sac1010s-projects.vercel.app/blog/${post.slug}`,
+      "@id": `${BASE_URL}/blog/${post.slug}`,
     },
   };
 

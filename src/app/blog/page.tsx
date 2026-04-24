@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { blogPosts } from "@/lib/blog";
+import { BASE_URL } from "@/lib/config";
 
 export const metadata: Metadata = {
   title: "Blog — Journaling Tips, Research & Stories",
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
     title: "Blog — Journaling Tips, Research & Stories",
     description:
       "Read about the science of journaling, personal stories, morning routines, mental health, and practical tips to build a journaling habit that sticks.",
-    url: "https://journal-lvovma8v9-sac1010s-projects.vercel.app/blog",
+    url: `${BASE_URL}/blog`,
   },
 };
 
