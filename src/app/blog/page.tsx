@@ -103,22 +103,14 @@ export default function BlogPage() {
             It&apos;s free and built with care. If it&apos;s brought you some clarity, a
             coffee helps keep it running.
           </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+          <div className="flex justify-center">
             <a
-              href="https://buymeacoffee.com/yourname"
+              href="https://ko-fi.com/sac101"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 bg-[#FFDD00] hover:bg-yellow-300 text-stone-900 text-sm font-semibold px-5 py-2.5 rounded-xl transition-colors"
+              className="inline-flex items-center justify-center gap-2 bg-[#29ABE0] hover:bg-[#1a9fd4] text-white text-sm font-semibold px-6 py-2.5 rounded-xl transition-colors"
             >
-              ☕ Buy me a coffee
-            </a>
-            <a
-              href="https://ko-fi.com/yourname"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 bg-white hover:bg-stone-50 text-stone-700 text-sm font-medium px-5 py-2.5 rounded-xl border border-stone-200 transition-colors"
-            >
-              Ko-fi
+              ☕ Support on Ko-fi
             </a>
           </div>
         </div>
