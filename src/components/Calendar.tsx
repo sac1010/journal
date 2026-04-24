@@ -5,6 +5,7 @@ import { useState } from "react";
 type Props = {
   entryDates: string[];
   onDayClick: (date: string) => void;
+  onMonthChange: (year: number, month: number) => void;
 };
 
 const DAYS = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
@@ -17,7 +18,7 @@ function toLocalDateString(date: Date) {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
 }
 
-export default function Calendar({ entryDates, onDayClick }: Props) {
+export default function Calendar({ entryDates, onDayClick, onMonthChange }: Props) {
   const today = new Date();
   const [viewYear, setViewYear] = useState(today.getFullYear());
   const [viewMonth, setViewMonth] = useState(today.getMonth());
@@ -30,13 +31,19 @@ export default function Calendar({ entryDates, onDayClick }: Props) {
   const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
 
   function prevMonth() {
-    if (viewMonth === 0) { setViewYear(y => y - 1); setViewMonth(11); }
-    else setViewMonth(m => m - 1);
+    const newYear = viewMonth === 0 ? viewYear - 1 : viewYear;
+    const newMonth = viewMonth === 0 ? 11 : viewMonth - 1;
+    setViewYear(newYear);
+    setViewMonth(newMonth);
+    onMonthChange(newYear, newMonth);
   }
 
   function nextMonth() {
-    if (viewMonth === 11) { setViewYear(y => y + 1); setViewMonth(0); }
-    else setViewMonth(m => m + 1);
+    const newYear = viewMonth === 11 ? viewYear + 1 : viewYear;
+    const newMonth = viewMonth === 11 ? 0 : viewMonth + 1;
+    setViewYear(newYear);
+    setViewMonth(newMonth);
+    onMonthChange(newYear, newMonth);
   }
 
   const cells: (number | null)[] = [

@@ -1,8 +1,13 @@
+"use client";
+
+import { useState } from "react";
+
 type Props = {
   date: string;
   content: string;
   onEdit: () => void;
   onBack: () => void;
+  onDelete: () => void;
 };
 
 function formatDisplayDate(dateStr: string) {
@@ -15,7 +20,9 @@ function formatDisplayDate(dateStr: string) {
   });
 }
 
-export default function EntryViewer({ date, content, onEdit, onBack }: Props) {
+export default function EntryViewer({ date, content, onEdit, onBack, onDelete }: Props) {
+  const [confirming, setConfirming] = useState(false);
+
   return (
     <div className="bg-white border border-stone-100 rounded-2xl p-6 shadow-sm flex flex-col gap-4">
       <div className="flex items-center justify-between">
@@ -32,6 +39,33 @@ export default function EntryViewer({ date, content, onEdit, onBack }: Props) {
       <p className="font-serif text-stone-800 text-base leading-relaxed whitespace-pre-wrap">
         {content}
       </p>
+
+      <div className="border-t border-stone-100 pt-3">
+        {confirming ? (
+          <div className="flex items-center gap-3">
+            <span className="text-xs text-stone-500">Delete this entry?</span>
+            <button
+              onClick={onDelete}
+              className="text-xs text-rose-500 hover:text-rose-700 font-medium transition-colors"
+            >
+              Yes, delete
+            </button>
+            <button
+              onClick={() => setConfirming(false)}
+              className="text-xs text-stone-400 hover:text-stone-600 transition-colors"
+            >
+              Cancel
+            </button>
+          </div>
+        ) : (
+          <button
+            onClick={() => setConfirming(true)}
+            className="text-xs text-stone-400 hover:text-rose-500 transition-colors"
+          >
+            Delete entry
+          </button>
+        )}
+      </div>
     </div>
   );
 }

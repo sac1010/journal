@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { supabase, type Entry } from "@/lib/supabase";
 import Calendar from "@/components/Calendar";
@@ -28,6 +28,7 @@ function sevenDaysAgo() {
 export default function DashboardPage() {
   const router = useRouter();
   const [entries, setEntries] = useState<Entry[]>([]);
+  const [todayEntry, setTodayEntry] = useState<Entry | null | undefined>(undefined);
   const [view, setView] = useState<View>({ type: "dashboard" });
   const [userId, setUserId] = useState<string | null>(null);
 
@@ -38,22 +39,42 @@ export default function DashboardPage() {
   const [askAnswer, setAskAnswer] = useState<string | null>(null);
   const [askLoading, setAskLoading] = useState(false);
 
-  const loadEntries = useCallback(async (uid: string) => {
+  // Tracks which month the calendar is showing so reloads stay in sync
+  const currentMonthRef = useRef({ year: new Date().getFullYear(), month: new Date().getMonth() });
+
+  const loadMonthEntries = useCallback(async (uid: string, year: number, month: number) => {
+    const from = `${year}-${String(month + 1).padStart(2, "0")}-01`;
+    const lastDay = new Date(year, month + 1, 0).getDate();
+    const to = `${year}-${String(month + 1).padStart(2, "0")}-${String(lastDay).padStart(2, "0")}`;
     const { data } = await supabase
       .from("entries")
       .select("*")
       .eq("user_id", uid)
+      .gte("date", from)
+      .lte("date", to)
       .order("date", { ascending: false });
     if (data) setEntries(data);
+  }, []);
+
+  const loadTodayEntry = useCallback(async (uid: string) => {
+    const { data } = await supabase
+      .from("entries")
+      .select("*")
+      .eq("user_id", uid)
+      .eq("date", todayStr())
+      .maybeSingle();
+    setTodayEntry(data ?? null);
   }, []);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (!session) { router.replace("/login"); return; }
       setUserId(session.user.id);
-      loadEntries(session.user.id);
+      const now = new Date();
+      loadMonthEntries(session.user.id, now.getFullYear(), now.getMonth());
+      loadTodayEntry(session.user.id);
     });
-  }, [router, loadEntries]);
+  }, [router, loadMonthEntries, loadTodayEntry]);
 
   async function handleSignOut() {
     await supabase.auth.signOut();
@@ -70,8 +91,16 @@ export default function DashboardPage() {
     } else {
       await supabase.from("entries").insert({ user_id: userId, date, content });
     }
-    await loadEntries(userId);
-    // note: does NOT navigate — EntryEditor handles post-save flow
+    const { year, month } = currentMonthRef.current;
+    await Promise.all([loadMonthEntries(userId, year, month), loadTodayEntry(userId)]);
+  }
+
+  async function handleDeleteEntry(id: string) {
+    if (!userId) return;
+    await supabase.from("entries").delete().eq("id", id);
+    const { year, month } = currentMonthRef.current;
+    await Promise.all([loadMonthEntries(userId, year, month), loadTodayEntry(userId)]);
+    setView({ type: "dashboard" });
   }
 
   function handleDayClick(date: string) {
@@ -83,15 +112,26 @@ export default function DashboardPage() {
     }
   }
 
+  function handleMonthChange(year: number, month: number) {
+    currentMonthRef.current = { year, month };
+    if (userId) loadMonthEntries(userId, year, month);
+  }
+
   async function handleWeeklySummary() {
+    if (!userId) return;
     setSummary(null);
     setSummaryLoading(true);
-    const weekEntries = entries.filter((e) => e.date >= sevenDaysAgo());
     try {
+      const { data: weekEntries } = await supabase
+        .from("entries")
+        .select("date, content")
+        .eq("user_id", userId)
+        .gte("date", sevenDaysAgo())
+        .order("date", { ascending: false });
       const res = await fetch("/api/summary", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ entries: weekEntries }),
+        body: JSON.stringify({ entries: weekEntries || [] }),
       });
       const data = await res.json();
       setSummary(data.summary || "Couldn't generate a summary right now.");
@@ -104,14 +144,19 @@ export default function DashboardPage() {
 
   async function handleAsk(e: React.FormEvent) {
     e.preventDefault();
-    if (!askQuestion.trim()) return;
+    if (!askQuestion.trim() || !userId) return;
     setAskAnswer(null);
     setAskLoading(true);
     try {
+      const { data: allEntries } = await supabase
+        .from("entries")
+        .select("date, content")
+        .eq("user_id", userId)
+        .order("date", { ascending: false });
       const res = await fetch("/api/ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question: askQuestion.trim(), entries }),
+        body: JSON.stringify({ question: askQuestion.trim(), entries: allEntries || [] }),
       });
       const data = await res.json();
       setAskAnswer(data.answer || "Couldn't find an answer right now.");
@@ -123,7 +168,6 @@ export default function DashboardPage() {
   }
 
   const today = todayStr();
-  const todayEntry = entries.find((e) => e.date === today);
   const entryDates = entries.map((e) => e.date);
   const recentEntries = entries.slice(0, 5).map((e) => ({ date: e.date, content: e.content }));
 
@@ -151,6 +195,7 @@ export default function DashboardPage() {
             content={view.entry.content}
             onEdit={() => setView({ type: "editor", date: view.entry.date, existing: view.entry })}
             onBack={() => setView({ type: "dashboard" })}
+            onDelete={() => handleDeleteEntry(view.entry.id)}
           />
         </div>
       </div>
@@ -200,14 +245,12 @@ export default function DashboardPage() {
         )}
 
         {/* Today prompt or today's entry */}
-        {!todayEntry && (
+        {todayEntry === undefined ? null : todayEntry === null ? (
           <TodayPrompt
             onWrite={() => setView({ type: "editor", date: today })}
             recentEntries={recentEntries}
           />
-        )}
-
-        {todayEntry && (
+        ) : (
           <button
             onClick={() => setView({ type: "viewer", entry: todayEntry })}
             className="bg-amber-50 border border-amber-100 rounded-2xl p-5 text-left hover:bg-amber-100 transition-colors"
@@ -217,7 +260,11 @@ export default function DashboardPage() {
           </button>
         )}
 
-        <Calendar entryDates={entryDates} onDayClick={handleDayClick} />
+        <Calendar
+          entryDates={entryDates}
+          onDayClick={handleDayClick}
+          onMonthChange={handleMonthChange}
+        />
 
         {/* Pinboard */}
         {userId && <StickyNotes userId={userId} />}
