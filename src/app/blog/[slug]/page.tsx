@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: "article",
       publishedTime: post.date,
       authors: [post.author],
-      url: `https://journal-three-blush.vercel.app/blog/${post.slug}`,
+      url: `https://journal-lvovma8v9-sac1010s-projects.vercel.app/blog/${post.slug}`,
     },
     twitter: {
       card: "summary_large_image",
@@ -87,11 +87,11 @@ export default async function BlogPostPage({ params }: Props) {
     publisher: {
       "@type": "Organization",
       name: "Journal",
-      url: "https://journal-three-blush.vercel.app",
+      url: "https://journal-lvovma8v9-sac1010s-projects.vercel.app",
     },
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `https://journal-three-blush.vercel.app/blog/${post.slug}`,
+      "@id": `https://journal-lvovma8v9-sac1010s-projects.vercel.app/blog/${post.slug}`,
     },
   };
 

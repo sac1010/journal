@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getAllSlugs } from "@/lib/blog";
 
-const BASE_URL = "https://journal-three-blush.vercel.app";
+const BASE_URL = "https://journal-lvovma8v9-sac1010s-projects.vercel.app";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const slugs = getAllSlugs();

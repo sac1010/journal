@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/dashboard", "/login", "/register"],
     },
-    sitemap: "https://journal-three-blush.vercel.app/sitemap.xml",
+    sitemap: "https://journal-lvovma8v9-sac1010s-projects.vercel.app/sitemap.xml",
   };
 }

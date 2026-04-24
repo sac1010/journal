@@ -18,14 +18,14 @@ export const metadata: Metadata = {
     "personal journal online",
     "simple journal app",
   ],
-  metadataBase: new URL("https://journal-three-blush.vercel.app"),
+  metadataBase: new URL("https://journal-lvovma8v9-sac1010s-projects.vercel.app"),
   openGraph: {
     type: "website",
     siteName: "Journal",
     title: "Journal — Your Private Daily Journal",
     description:
       "A simple, private online journal to capture your thoughts, track your mood, and reflect on your life.",
-    url: "https://journal-three-blush.vercel.app",
+    url: "https://journal-lvovma8v9-sac1010s-projects.vercel.app",
   },
   twitter: {
     card: "summary_large_image",

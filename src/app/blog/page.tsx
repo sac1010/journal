@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     title: "Blog — Journaling Tips, Research & Stories",
     description:
       "Read about the science of journaling, personal stories, morning routines, mental health, and practical tips to build a journaling habit that sticks.",
-    url: "https://journal-three-blush.vercel.app/blog",
+    url: "https://journal-lvovma8v9-sac1010s-projects.vercel.app/blog",
   },
 };
 
