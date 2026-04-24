@@ -7,6 +7,7 @@ import Calendar from "@/components/Calendar";
 import TodayPrompt from "@/components/TodayPrompt";
 import EntryEditor from "@/components/EntryEditor";
 import EntryViewer from "@/components/EntryViewer";
+import StickyNotes from "@/components/StickyNotes";
 
 type View =
   | { type: "dashboard" }
@@ -217,6 +218,9 @@ export default function DashboardPage() {
         )}
 
         <Calendar entryDates={entryDates} onDayClick={handleDayClick} />
+
+        {/* Pinboard */}
+        {userId && <StickyNotes userId={userId} />}
 
         {/* Ask your journal */}
         <div className="mt-2">
