@@ -18,11 +18,24 @@ function todayStr() {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 }
 
+function sevenDaysAgo() {
+  const d = new Date();
+  d.setDate(d.getDate() - 7);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+
 export default function DashboardPage() {
   const router = useRouter();
   const [entries, setEntries] = useState<Entry[]>([]);
   const [view, setView] = useState<View>({ type: "dashboard" });
   const [userId, setUserId] = useState<string | null>(null);
+
+  const [summary, setSummary] = useState<string | null>(null);
+  const [summaryLoading, setSummaryLoading] = useState(false);
+
+  const [askQuestion, setAskQuestion] = useState("");
+  const [askAnswer, setAskAnswer] = useState<string | null>(null);
+  const [askLoading, setAskLoading] = useState(false);
 
   const loadEntries = useCallback(async (uid: string) => {
     const { data } = await supabase
@@ -48,20 +61,16 @@ export default function DashboardPage() {
 
   async function saveEntry(date: string, content: string, existingId?: string) {
     if (!userId) return;
-
     if (existingId) {
       await supabase
         .from("entries")
         .update({ content, updated_at: new Date().toISOString() })
         .eq("id", existingId);
     } else {
-      await supabase
-        .from("entries")
-        .insert({ user_id: userId, date, content });
+      await supabase.from("entries").insert({ user_id: userId, date, content });
     }
-
     await loadEntries(userId);
-    setView({ type: "dashboard" });
+    // note: does NOT navigate — EntryEditor handles post-save flow
   }
 
   function handleDayClick(date: string) {
@@ -73,9 +82,49 @@ export default function DashboardPage() {
     }
   }
 
+  async function handleWeeklySummary() {
+    setSummary(null);
+    setSummaryLoading(true);
+    const weekEntries = entries.filter((e) => e.date >= sevenDaysAgo());
+    try {
+      const res = await fetch("/api/summary", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ entries: weekEntries }),
+      });
+      const data = await res.json();
+      setSummary(data.summary || "Couldn't generate a summary right now.");
+    } catch {
+      setSummary("Couldn't generate a summary right now.");
+    } finally {
+      setSummaryLoading(false);
+    }
+  }
+
+  async function handleAsk(e: React.FormEvent) {
+    e.preventDefault();
+    if (!askQuestion.trim()) return;
+    setAskAnswer(null);
+    setAskLoading(true);
+    try {
+      const res = await fetch("/api/ask", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question: askQuestion.trim(), entries }),
+      });
+      const data = await res.json();
+      setAskAnswer(data.answer || "Couldn't find an answer right now.");
+    } catch {
+      setAskAnswer("Couldn't find an answer right now.");
+    } finally {
+      setAskLoading(false);
+    }
+  }
+
   const today = todayStr();
   const todayEntry = entries.find((e) => e.date === today);
   const entryDates = entries.map((e) => e.date);
+  const recentEntries = entries.slice(0, 5).map((e) => ({ date: e.date, content: e.content }));
 
   if (view.type === "editor") {
     return (
@@ -108,20 +157,53 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-start justify-center pt-12 px-4 pb-12">
+    <div className="min-h-screen flex items-start justify-center pt-12 px-4 pb-16">
       <div className="w-full max-w-sm flex flex-col gap-4">
+
+        {/* Header */}
         <div className="flex items-center justify-between mb-2">
           <h1 className="font-serif text-2xl text-stone-800">My Journal</h1>
-          <button
-            onClick={handleSignOut}
-            className="text-xs text-stone-400 hover:text-stone-600 transition-colors"
-          >
-            Sign out
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={handleWeeklySummary}
+              disabled={summaryLoading}
+              className="text-xs text-amber-600 hover:text-amber-700 font-medium transition-colors disabled:opacity-50"
+            >
+              {summaryLoading ? "Summarising…" : "Week in review"}
+            </button>
+            <button
+              onClick={handleSignOut}
+              className="text-xs text-stone-400 hover:text-stone-600 transition-colors"
+            >
+              Sign out
+            </button>
+          </div>
         </div>
 
+        {/* Weekly summary panel */}
+        {summary && (
+          <div className="bg-stone-50 border border-stone-200 rounded-2xl p-5 relative">
+            <button
+              onClick={() => setSummary(null)}
+              className="absolute top-3 right-3 text-stone-300 hover:text-stone-500 text-lg leading-none"
+            >
+              ×
+            </button>
+            <p className="text-xs text-stone-400 font-medium uppercase tracking-wide mb-3">
+              Week in review
+            </p>
+            <p className="font-serif text-stone-700 text-sm leading-relaxed whitespace-pre-line">
+              {summary}
+            </p>
+          </div>
+        )}
+
+        {/* Today prompt or today's entry */}
         {!todayEntry && (
-          <TodayPrompt onWrite={() => setView({ type: "editor", date: today })} />
+          <TodayPrompt
+            onWrite={() => setView({ type: "editor", date: today })}
+            recentEntries={recentEntries}
+          />
         )}
 
         {todayEntry && (
@@ -135,6 +217,42 @@ export default function DashboardPage() {
         )}
 
         <Calendar entryDates={entryDates} onDayClick={handleDayClick} />
+
+        {/* Ask your journal */}
+        <div className="mt-2">
+          <p className="text-xs text-stone-400 font-medium uppercase tracking-wide mb-2">
+            Ask your journal
+          </p>
+          <form onSubmit={handleAsk} className="flex gap-2">
+            <input
+              type="text"
+              value={askQuestion}
+              onChange={(e) => setAskQuestion(e.target.value)}
+              placeholder="What was I anxious about last month?"
+              className="flex-1 text-sm bg-white border border-stone-200 rounded-xl px-4 py-2.5 outline-none focus:border-amber-400 placeholder:text-stone-300 transition-colors"
+            />
+            <button
+              type="submit"
+              disabled={askLoading || !askQuestion.trim()}
+              className="shrink-0 bg-stone-800 hover:bg-stone-900 text-white text-sm font-medium px-4 py-2.5 rounded-xl transition-colors disabled:opacity-40"
+            >
+              {askLoading ? "…" : "Ask"}
+            </button>
+          </form>
+
+          {askAnswer && (
+            <div className="mt-3 bg-white border border-stone-100 rounded-xl p-4 relative">
+              <button
+                onClick={() => { setAskAnswer(null); setAskQuestion(""); }}
+                className="absolute top-2 right-3 text-stone-300 hover:text-stone-500 text-lg leading-none"
+              >
+                ×
+              </button>
+              <p className="font-serif text-stone-700 text-sm leading-relaxed pr-4">{askAnswer}</p>
+            </div>
+          )}
+        </div>
+
       </div>
     </div>
   );
