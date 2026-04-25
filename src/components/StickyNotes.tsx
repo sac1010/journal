@@ -2,10 +2,12 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { supabase, type StickyNote } from "@/lib/supabase";
+import { useTheme, type Palette } from "@/lib/theme";
 
 type EditState = { id?: string; title: string; content: string };
 
 export default function StickyNotes({ userId }: { userId: string }) {
+  const { t } = useTheme();
   const [notes, setNotes] = useState<StickyNote[]>([]);
   const [editing, setEditing] = useState<EditState | null>(null);
   const [saving, setSaving] = useState(false);
@@ -72,6 +74,7 @@ export default function StickyNotes({ userId }: { userId: string }) {
           <NoteEditor
             key={note.id}
             value={editing}
+            t={t}
             onChange={(v) => setEditing((prev) => prev ? { ...prev, ...v } : null)}
             onSave={handleSave}
             onCancel={() => setEditing(null)}
@@ -81,6 +84,7 @@ export default function StickyNotes({ userId }: { userId: string }) {
           <NoteCard
             key={note.id}
             note={note}
+            t={t}
             onEdit={() => setEditing({ id: note.id, title: note.title, content: note.content })}
             onDelete={() => handleDelete(note.id)}
           />
@@ -90,6 +94,7 @@ export default function StickyNotes({ userId }: { userId: string }) {
       {editing && !editing.id && (
         <NoteEditor
           value={editing}
+          t={t}
           onChange={(v) => setEditing((prev) => prev ? { ...prev, ...v } : null)}
           onSave={handleSave}
           onCancel={() => setEditing(null)}
@@ -100,7 +105,7 @@ export default function StickyNotes({ userId }: { userId: string }) {
       {notes.length === 0 && !editing && (
         <button
           onClick={() => setEditing({ title: "", content: "" })}
-          className="border border-dashed border-amber-200 rounded-xl p-4 text-xs text-amber-500 opacity-50 hover:opacity-75 transition-opacity text-left"
+          className={`border border-dashed ${t.border200} rounded-xl p-4 text-xs ${t.text500} opacity-50 hover:opacity-75 transition-opacity text-left`}
         >
           Nothing pinned yet — tap to add a note
         </button>
@@ -110,19 +115,20 @@ export default function StickyNotes({ userId }: { userId: string }) {
 }
 
 function NoteCard({
-  note, onEdit, onDelete,
+  note, t, onEdit, onDelete,
 }: {
   note: StickyNote;
+  t: Palette;
   onEdit: () => void;
   onDelete: () => void;
 }) {
   return (
     <div
       onClick={onEdit}
-      className="bg-amber-50 border border-amber-100 rounded-xl p-4 group relative cursor-pointer hover:bg-amber-100 transition-colors"
+      className={`${t.bg50} border ${t.border100} rounded-xl p-4 group relative cursor-pointer ${t.hoverBg100} transition-colors`}
     >
       {note.title && (
-        <p className="text-xs font-semibold text-amber-700 mb-1 uppercase tracking-wide pr-5">
+        <p className={`text-xs font-semibold ${t.text700} mb-1 uppercase tracking-wide pr-5`}>
           {note.title}
         </p>
       )}
@@ -143,23 +149,24 @@ function NoteCard({
 }
 
 function NoteEditor({
-  value, onChange, onSave, onCancel, saving,
+  value, t, onChange, onSave, onCancel, saving,
 }: {
   value: EditState;
+  t: Palette;
   onChange: (v: Partial<EditState>) => void;
   onSave: () => void;
   onCancel: () => void;
   saving: boolean;
 }) {
   return (
-    <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex flex-col gap-2">
+    <div className={`${t.bg50} border ${t.border200} rounded-xl p-4 flex flex-col gap-2`}>
       <input
         autoFocus
         type="text"
         value={value.title}
         onChange={(e) => onChange({ title: e.target.value })}
         placeholder="Title (optional)"
-        className="w-full bg-transparent text-xs font-semibold text-amber-700 uppercase tracking-wide outline-none placeholder:text-amber-300 placeholder:normal-case placeholder:tracking-normal"
+        className={`w-full bg-transparent text-xs font-semibold ${t.text700} uppercase tracking-wide outline-none ${t.placeholder300} placeholder:normal-case placeholder:tracking-normal`}
       />
       <textarea
         value={value.content}

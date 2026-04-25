@@ -8,6 +8,7 @@ import TodayPrompt from "@/components/TodayPrompt";
 import EntryEditor from "@/components/EntryEditor";
 import EntryViewer from "@/components/EntryViewer";
 import StickyNotes from "@/components/StickyNotes";
+import { useTheme, THEMES, THEME_IDS } from "@/lib/theme";
 
 type View =
   | { type: "dashboard" }
@@ -31,6 +32,7 @@ function sevenDaysAgo() {
 
 export default function DashboardPage() {
   const router = useRouter();
+  const { theme, t, setTheme } = useTheme();
   const [entries, setEntries] = useState<Entry[]>([]);
   const [todayEntry, setTodayEntry] = useState<Entry | null | undefined>(undefined);
   const [view, setView] = useState<View>({ type: "dashboard" });
@@ -222,10 +224,24 @@ export default function DashboardPage() {
             <button
               onClick={handleWeeklySummary}
               disabled={summaryLoading}
-              className="text-xs text-amber-600 hover:text-amber-700 font-medium transition-colors disabled:opacity-50"
+              className={`text-xs ${t.text600} ${t.hoverText700} font-medium transition-colors disabled:opacity-50`}
             >
               {summaryLoading ? "Summarising…" : "Week in review"}
             </button>
+            {/* Theme picker */}
+            <div className="flex items-center gap-1">
+              {THEME_IDS.map((id) => (
+                <button
+                  key={id}
+                  title={THEMES[id].label}
+                  onClick={() => setTheme(id)}
+                  className={`w-3 h-3 rounded-full transition-all ${
+                    theme === id ? "ring-2 ring-offset-1 ring-stone-300 scale-110" : "opacity-50 hover:opacity-90 hover:scale-110"
+                  }`}
+                  style={{ backgroundColor: THEMES[id].swatch }}
+                />
+              ))}
+            </div>
             <button
               onClick={handleSignOut}
               className="text-xs text-stone-400 hover:text-stone-600 transition-colors"
@@ -262,9 +278,9 @@ export default function DashboardPage() {
         ) : (
           <button
             onClick={() => setView({ type: "viewer", entry: todayEntry })}
-            className="bg-amber-50 border border-amber-100 rounded-2xl p-5 text-left hover:bg-amber-100 transition-colors"
+            className={`${t.bg50} border ${t.border100} rounded-2xl p-5 text-left ${t.hoverBg100} transition-colors`}
           >
-            <p className="text-xs text-amber-600 font-medium mb-0.5 uppercase tracking-wide">Today</p>
+            <p className={`text-xs ${t.text600} font-medium mb-0.5 uppercase tracking-wide`}>Today</p>
             <p className="font-serif text-stone-700 text-sm line-clamp-2">{stripHtml(todayEntry.content)}</p>
           </button>
         )}
@@ -289,7 +305,7 @@ export default function DashboardPage() {
               value={askQuestion}
               onChange={(e) => setAskQuestion(e.target.value)}
               placeholder="What was I anxious about last month?"
-              className="flex-1 text-sm bg-white border border-stone-200 rounded-xl px-4 py-2.5 outline-none focus:border-amber-400 placeholder:text-stone-300 transition-colors"
+              className={`flex-1 text-sm bg-white border border-stone-200 rounded-xl px-4 py-2.5 outline-none ${t.focusBorder} placeholder:text-stone-300 transition-colors`}
             />
             <button
               type="submit"

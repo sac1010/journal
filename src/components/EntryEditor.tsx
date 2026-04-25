@@ -8,6 +8,7 @@ import { Color } from "@tiptap/extension-color";
 import { TextStyle } from "@tiptap/extension-text-style";
 import Highlight from "@tiptap/extension-highlight";
 import type { Editor } from "@tiptap/core";
+import { useTheme } from "@/lib/theme";
 
 const FontSizeTextStyle = TextStyle.extend({
   addAttributes() {
@@ -49,12 +50,14 @@ function ToolbarBtn({
   onClick,
   title,
   children,
+  activeClass,
   className = "",
 }: {
   active?: boolean;
   onClick: () => void;
   title: string;
   children: React.ReactNode;
+  activeClass: string;
   className?: string;
 }) {
   return (
@@ -65,9 +68,7 @@ function ToolbarBtn({
         onClick();
       }}
       className={`flex items-center justify-center w-7 h-7 rounded text-sm transition-colors ${
-        active
-          ? "bg-amber-100 text-amber-700"
-          : "text-stone-500 hover:bg-stone-100 hover:text-stone-700"
+        active ? activeClass : "text-stone-500 hover:bg-stone-100 hover:text-stone-700"
       } ${className}`}
     >
       {children}
@@ -76,6 +77,7 @@ function ToolbarBtn({
 }
 
 function Toolbar({ editor }: { editor: Editor }) {
+  const { t } = useTheme();
   const currentFontSize = editor.getAttributes("textStyle").fontSize || "16px";
   const currentColor = editor.getAttributes("textStyle").color || "#292524";
   const currentHighlight = editor.getAttributes("highlight").color || "#fef08a";
@@ -84,6 +86,7 @@ function Toolbar({ editor }: { editor: Editor }) {
     <div className="flex items-center gap-0.5 flex-wrap pb-3 border-b border-stone-100 mb-1">
       <ToolbarBtn
         active={editor.isActive("bold")}
+        activeClass={t.toolbarActive}
         onClick={() => editor.chain().focus().toggleBold().run()}
         title="Bold"
         className="font-bold"
@@ -93,6 +96,7 @@ function Toolbar({ editor }: { editor: Editor }) {
 
       <ToolbarBtn
         active={editor.isActive("italic")}
+        activeClass={t.toolbarActive}
         onClick={() => editor.chain().focus().toggleItalic().run()}
         title="Italic"
         className="italic"
@@ -102,6 +106,7 @@ function Toolbar({ editor }: { editor: Editor }) {
 
       <ToolbarBtn
         active={editor.isActive("underline")}
+        activeClass={t.toolbarActive}
         onClick={() => editor.chain().focus().toggleUnderline().run()}
         title="Underline"
         className="underline"
@@ -113,6 +118,7 @@ function Toolbar({ editor }: { editor: Editor }) {
 
       <ToolbarBtn
         active={editor.isActive("bulletList")}
+        activeClass={t.toolbarActive}
         onClick={() => editor.chain().focus().toggleBulletList().run()}
         title="Bullet list"
       >
@@ -134,7 +140,7 @@ function Toolbar({ editor }: { editor: Editor }) {
         onChange={(e) =>
           editor.chain().focus().setMark("textStyle", { fontSize: e.target.value }).run()
         }
-        className="text-xs text-stone-500 border border-stone-200 rounded px-1.5 outline-none focus:border-amber-400 bg-white h-7"
+        className={`text-xs text-stone-500 border border-stone-200 rounded px-1.5 outline-none ${t.focusBorder} bg-white h-7`}
         title="Font size"
       >
         {FONT_SIZES.map((size) => (
@@ -164,7 +170,7 @@ function Toolbar({ editor }: { editor: Editor }) {
       {/* Highlight */}
       <label
         className={`relative flex items-center justify-center w-7 h-7 rounded cursor-pointer transition-colors ${
-          editor.isActive("highlight") ? "bg-amber-100" : "hover:bg-stone-100"
+          editor.isActive("highlight") ? t.bg100 : "hover:bg-stone-100"
         }`}
         title="Highlight color"
       >
@@ -188,6 +194,7 @@ function Toolbar({ editor }: { editor: Editor }) {
 }
 
 export default function EntryEditor({ date, initialContent = "", onSave, onCancel }: Props) {
+  const { t } = useTheme();
   const [saving, setSaving] = useState(false);
   const [reflection, setReflection] = useState<string | null>(null);
   const [reflecting, setReflecting] = useState(false);
@@ -240,7 +247,7 @@ export default function EntryEditor({ date, initialContent = "", onSave, onCance
   if (reflecting) {
     return (
       <div className="bg-white border border-stone-100 rounded-2xl p-6 shadow-sm flex flex-col gap-4 min-h-[200px] items-center justify-center">
-        <div className="w-5 h-5 border-2 border-amber-400 border-t-transparent rounded-full animate-spin" />
+        <div className={`w-5 h-5 border-2 ${t.spinnerBorder} border-t-transparent rounded-full animate-spin`} />
         <p className="text-sm text-stone-400">Reflecting on your entry…</p>
       </div>
     );
@@ -250,14 +257,14 @@ export default function EntryEditor({ date, initialContent = "", onSave, onCance
     return (
       <div className="bg-white border border-stone-100 rounded-2xl p-6 shadow-sm flex flex-col gap-5">
         <div>
-          <p className="text-xs text-amber-600 font-medium uppercase tracking-wide mb-3">
+          <p className={`text-xs ${t.text600} font-medium uppercase tracking-wide mb-3`}>
             A reflection
           </p>
           <p className="font-serif text-stone-700 text-base leading-relaxed">{reflection}</p>
         </div>
         <button
           onClick={onCancel}
-          className="self-end bg-amber-600 hover:bg-amber-700 text-white text-sm font-medium px-5 py-2 rounded-lg transition-colors"
+          className={`self-end ${t.btnPrimary} text-white text-sm font-medium px-5 py-2 rounded-lg transition-colors`}
         >
           Done
         </button>
@@ -285,7 +292,7 @@ export default function EntryEditor({ date, initialContent = "", onSave, onCance
         <button
           onClick={handleSave}
           disabled={saving || !editor?.getText().trim()}
-          className="bg-amber-600 hover:bg-amber-700 text-white text-sm font-medium px-5 py-2 rounded-lg transition-colors disabled:opacity-40"
+          className={`${t.btnPrimary} text-white text-sm font-medium px-5 py-2 rounded-lg transition-colors disabled:opacity-40`}
         >
           {saving ? "Saving..." : "Save entry"}
         </button>

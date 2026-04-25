@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTheme } from "@/lib/theme";
 
 type Props = {
   date: string;
@@ -21,6 +22,7 @@ function formatDisplayDate(dateStr: string) {
 }
 
 export default function EntryViewer({ date, content, onEdit, onBack, onDelete }: Props) {
+  const { t } = useTheme();
   const [confirming, setConfirming] = useState(false);
 
   return (
@@ -29,7 +31,7 @@ export default function EntryViewer({ date, content, onEdit, onBack, onDelete }:
         <button onClick={onBack} className="text-stone-400 hover:text-stone-600 text-sm transition-colors">
           ← Back
         </button>
-        <button onClick={onEdit} className="text-amber-600 hover:text-amber-700 text-sm font-medium transition-colors">
+        <button onClick={onEdit} className={`${t.text600} ${t.hoverText700} text-sm font-medium transition-colors`}>
           Edit
         </button>
       </div>

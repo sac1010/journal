@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTheme } from "@/lib/theme";
 
 type Props = {
   onWrite: () => void;
@@ -16,6 +17,7 @@ const FALLBACK_PROMPTS = [
 ];
 
 export default function TodayPrompt({ onWrite, recentEntries = [] }: Props) {
+  const { t } = useTheme();
   const [prompt, setPrompt] = useState(
     FALLBACK_PROMPTS[new Date().getDate() % FALLBACK_PROMPTS.length]
   );
@@ -41,16 +43,16 @@ export default function TodayPrompt({ onWrite, recentEntries = [] }: Props) {
   }, []);
 
   return (
-    <div className="bg-amber-50 border border-amber-100 rounded-2xl p-5 flex items-center justify-between gap-4">
+    <div className={`${t.bg50} border ${t.border100} rounded-2xl p-5 flex items-center justify-between gap-4`}>
       <div className="flex-1 min-w-0">
-        <p className="text-xs text-amber-600 font-medium mb-0.5 uppercase tracking-wide">Today</p>
+        <p className={`text-xs ${t.text600} font-medium mb-0.5 uppercase tracking-wide`}>Today</p>
         <p className={`font-serif text-stone-700 text-base ${loading ? "animate-pulse text-stone-400" : ""}`}>
           {prompt}
         </p>
       </div>
       <button
         onClick={onWrite}
-        className="shrink-0 bg-amber-600 hover:bg-amber-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors"
+        className={`shrink-0 ${t.btnPrimary} text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors`}
       >
         Write →
       </button>

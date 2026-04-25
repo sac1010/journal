@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTheme } from "@/lib/theme";
 
 type Props = {
   entryDates: string[];
@@ -19,6 +20,7 @@ function toLocalDateString(date: Date) {
 }
 
 export default function Calendar({ entryDates, onDayClick, onMonthChange }: Props) {
+  const { t } = useTheme();
   const today = new Date();
   const [viewYear, setViewYear] = useState(today.getFullYear());
   const [viewMonth, setViewMonth] = useState(today.getMonth());
@@ -26,7 +28,6 @@ export default function Calendar({ entryDates, onDayClick, onMonthChange }: Prop
   const entrySet = new Set(entryDates);
 
   const firstDay = new Date(viewYear, viewMonth, 1);
-  // Monday-based: getDay() returns 0=Sun, convert to Mon-based index
   const startOffset = (firstDay.getDay() + 6) % 7;
   const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
 
@@ -93,12 +94,12 @@ export default function Calendar({ entryDates, onDayClick, onMonthChange }: Prop
               onClick={() => onDayClick(dateStr)}
               className={`
                 relative flex flex-col items-center justify-center rounded-lg py-1.5 text-sm transition-colors
-                ${isToday ? "bg-amber-50 text-amber-700 font-semibold" : "hover:bg-stone-50 text-stone-700"}
+                ${isToday ? `${t.todayCell} font-semibold` : "hover:bg-stone-50 text-stone-700"}
               `}
             >
               {day}
               {hasEntry && (
-                <span className="absolute bottom-1 w-1 h-1 rounded-full bg-amber-400" />
+                <span className={`absolute bottom-1 w-1 h-1 rounded-full ${t.dot}`} />
               )}
             </button>
           );

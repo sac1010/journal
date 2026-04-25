@@ -4,9 +4,11 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
+import { useTheme } from "@/lib/theme";
 
 export default function LoginPage() {
   const router = useRouter();
+  const { t } = useTheme();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -41,7 +43,7 @@ export default function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full border border-stone-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-amber-400 bg-white"
+              className={`w-full border border-stone-200 rounded-lg px-3 py-2 text-sm outline-none ${t.focusBorder} bg-white`}
             />
           </div>
 
@@ -52,7 +54,7 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full border border-stone-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-amber-400 bg-white"
+              className={`w-full border border-stone-200 rounded-lg px-3 py-2 text-sm outline-none ${t.focusBorder} bg-white`}
             />
           </div>
 
@@ -61,7 +63,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-amber-600 hover:bg-amber-700 text-white rounded-lg py-2 text-sm font-medium transition-colors disabled:opacity-50"
+            className={`w-full ${t.btnPrimary} text-white rounded-lg py-2 text-sm font-medium transition-colors disabled:opacity-50`}
           >
             {loading ? "Signing in..." : "Sign in"}
           </button>
@@ -69,7 +71,7 @@ export default function LoginPage() {
 
         <p className="text-center text-sm text-stone-500 mt-6">
           No account?{" "}
-          <Link href="/register" className="text-amber-600 hover:underline">
+          <Link href="/register" className={`${t.text600} hover:underline`}>
             Register
           </Link>
         </p>
