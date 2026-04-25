@@ -14,6 +14,10 @@ type View =
   | { type: "editor"; date: string; existing?: Entry }
   | { type: "viewer"; entry: Entry };
 
+function stripHtml(html: string) {
+  return html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+}
+
 function todayStr() {
   const d = new Date();
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
@@ -131,7 +135,9 @@ export default function DashboardPage() {
       const res = await fetch("/api/summary", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ entries: weekEntries || [] }),
+        body: JSON.stringify({
+          entries: (weekEntries || []).map((e) => ({ ...e, content: stripHtml(e.content) })),
+        }),
       });
       const data = await res.json();
       setSummary(data.summary || "Couldn't generate a summary right now.");
@@ -156,7 +162,10 @@ export default function DashboardPage() {
       const res = await fetch("/api/ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question: askQuestion.trim(), entries: allEntries || [] }),
+        body: JSON.stringify({
+        question: askQuestion.trim(),
+        entries: (allEntries || []).map((e) => ({ ...e, content: stripHtml(e.content) })),
+      }),
       });
       const data = await res.json();
       setAskAnswer(data.answer || "Couldn't find an answer right now.");
@@ -256,7 +265,7 @@ export default function DashboardPage() {
             className="bg-amber-50 border border-amber-100 rounded-2xl p-5 text-left hover:bg-amber-100 transition-colors"
           >
             <p className="text-xs text-amber-600 font-medium mb-0.5 uppercase tracking-wide">Today</p>
-            <p className="font-serif text-stone-700 text-sm line-clamp-2">{todayEntry.content}</p>
+            <p className="font-serif text-stone-700 text-sm line-clamp-2">{stripHtml(todayEntry.content)}</p>
           </button>
         )}
 

@@ -36,9 +36,16 @@ export default function EntryViewer({ date, content, onEdit, onBack, onDelete }:
 
       <p className="font-serif text-stone-500 text-sm">{formatDisplayDate(date)}</p>
 
-      <p className="font-serif text-stone-800 text-base leading-relaxed whitespace-pre-wrap">
-        {content}
-      </p>
+      {content.trimStart().startsWith("<") ? (
+        <div
+          className="font-serif text-stone-800 text-base leading-relaxed [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1 [&_strong]:font-bold [&_em]:italic [&_u]:underline [&_p]:min-h-[1.5em]"
+          dangerouslySetInnerHTML={{ __html: content }}
+        />
+      ) : (
+        <p className="font-serif text-stone-800 text-base leading-relaxed whitespace-pre-wrap">
+          {content}
+        </p>
+      )}
 
       <div className="border-t border-stone-100 pt-3">
         {confirming ? (
