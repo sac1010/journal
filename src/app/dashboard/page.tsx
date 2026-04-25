@@ -251,15 +251,15 @@ export default function DashboardPage() {
                 <>
                   <div className="fixed inset-0 z-10" onClick={() => setSettingsOpen(false)} />
                   <div className="absolute right-0 top-6 z-20 bg-white border border-stone-100 rounded-xl shadow-md p-4 w-44">
-                    <p className="text-xs text-stone-400 font-medium uppercase tracking-wide mb-3">Accent color</p>
-                    <div className="flex items-center gap-2 flex-wrap">
+                    <p className="text-xs text-stone-400 font-medium uppercase tracking-wide mb-2">Theme</p>
+                    <div className="flex items-center gap-1.5">
                       {THEME_IDS.map((id) => (
                         <button
                           key={id}
                           title={THEMES[id].label}
                           onClick={() => { setTheme(id); setSettingsOpen(false); }}
-                          className={`w-6 h-6 rounded-full transition-all ${
-                            theme === id ? "ring-2 ring-offset-2 ring-stone-400 scale-110" : "opacity-60 hover:opacity-100 hover:scale-110"
+                          className={`w-3.5 h-3.5 rounded-full transition-all ${
+                            theme === id ? "ring-2 ring-offset-1 ring-stone-300" : "opacity-50 hover:opacity-90"
                           }`}
                           style={{ backgroundColor: THEMES[id].swatch }}
                         />
