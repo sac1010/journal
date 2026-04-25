@@ -41,6 +41,7 @@ export default function DashboardPage() {
   const [summary, setSummary] = useState<string | null>(null);
   const [summaryLoading, setSummaryLoading] = useState(false);
 
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const [askQuestion, setAskQuestion] = useState("");
   const [askAnswer, setAskAnswer] = useState<string | null>(null);
   const [askLoading, setAskLoading] = useState(false);
@@ -228,26 +229,46 @@ export default function DashboardPage() {
             >
               {summaryLoading ? "Summarising…" : "Week in review"}
             </button>
-            {/* Theme picker */}
-            <div className="flex items-center gap-1">
-              {THEME_IDS.map((id) => (
-                <button
-                  key={id}
-                  title={THEMES[id].label}
-                  onClick={() => setTheme(id)}
-                  className={`w-3 h-3 rounded-full transition-all ${
-                    theme === id ? "ring-2 ring-offset-1 ring-stone-300 scale-110" : "opacity-50 hover:opacity-90 hover:scale-110"
-                  }`}
-                  style={{ backgroundColor: THEMES[id].swatch }}
-                />
-              ))}
-            </div>
             <button
               onClick={handleSignOut}
               className="text-xs text-stone-400 hover:text-stone-600 transition-colors"
             >
               Sign out
             </button>
+            {/* Settings */}
+            <div className="relative">
+              <button
+                onClick={() => setSettingsOpen((o) => !o)}
+                className="text-stone-400 hover:text-stone-600 transition-colors"
+                title="Settings"
+              >
+                <svg width="15" height="15" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd" />
+                </svg>
+              </button>
+
+              {settingsOpen && (
+                <>
+                  <div className="fixed inset-0 z-10" onClick={() => setSettingsOpen(false)} />
+                  <div className="absolute right-0 top-6 z-20 bg-white border border-stone-100 rounded-xl shadow-md p-4 w-44">
+                    <p className="text-xs text-stone-400 font-medium uppercase tracking-wide mb-3">Accent color</p>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      {THEME_IDS.map((id) => (
+                        <button
+                          key={id}
+                          title={THEMES[id].label}
+                          onClick={() => { setTheme(id); setSettingsOpen(false); }}
+                          className={`w-6 h-6 rounded-full transition-all ${
+                            theme === id ? "ring-2 ring-offset-2 ring-stone-400 scale-110" : "opacity-60 hover:opacity-100 hover:scale-110"
+                          }`}
+                          style={{ backgroundColor: THEMES[id].swatch }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
         </div>
 
