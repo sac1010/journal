@@ -198,6 +198,7 @@ export default function EntryEditor({ date, initialContent = "", onSave, onCance
   const [saving, setSaving] = useState(false);
   const [reflection, setReflection] = useState<string | null>(null);
   const [reflecting, setReflecting] = useState(false);
+  const [hasContent, setHasContent] = useState(() => !!initialContent?.trim());
 
   const editor = useEditor({
     extensions: [
@@ -213,6 +214,9 @@ export default function EntryEditor({ date, initialContent = "", onSave, onCance
         class:
           "font-serif text-stone-800 text-base leading-relaxed outline-none min-h-[240px] [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1 [&_p]:min-h-[1.5em]",
       },
+    },
+    onUpdate({ editor }) {
+      setHasContent(!!editor.getText().trim());
     },
     autofocus: true,
   });
@@ -291,7 +295,7 @@ export default function EntryEditor({ date, initialContent = "", onSave, onCance
       <div className="flex justify-end">
         <button
           onClick={handleSave}
-          disabled={saving || !editor?.getText().trim()}
+          disabled={saving || !hasContent}
           className={`${t.btnPrimary} text-white text-sm font-medium px-5 py-2 rounded-lg transition-colors disabled:opacity-40`}
         >
           {saving ? "Saving..." : "Save entry"}
